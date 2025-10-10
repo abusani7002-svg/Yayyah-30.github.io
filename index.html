@@ -59,6 +59,15 @@
       pointer-events: none;
       z-index:9999;
     }
+ html {
+  scroll-behavior: smooth;
+}
+
+.gallery img, .gallery video {
+  transform-origin: center center;
+  will-change: transform, filter, opacity;
+}
+   
   </style>
 
 </head>
@@ -169,59 +178,68 @@
   <!-- GSAP Libraries -->
 <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
 <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
-// 1️⃣ Animate text
-gsap.utils.toArray("h1, p").forEach((el, i) => {
+// 🔹 Intro animation (plays once on load)
+gsap.timeline()
+  .from("h1", { y: 80, opacity: 0, duration: 1.2, ease: "power4.out" })
+  .from("p", { y: 30, opacity: 0, stagger: 0.2, duration: 0.8, ease: "power2.out" }, "-=0.6");
+
+// 🔹 Parallax + reveal for text
+gsap.utils.toArray("section p").forEach((el) => {
   gsap.from(el, {
     scrollTrigger: {
       trigger: el,
-      start: "top 90%",
-      toggleActions: "play none none none"
+      start: "top 85%",
+      toggleActions: "play none none none",
     },
     y: 50,
     opacity: 0,
     duration: 1,
-    delay: i * 0.2,
-    ease: "power2.out"
+    ease: "power3.out"
   });
 });
 
-// 2️⃣ Animate images
-gsap.utils.toArray(".gallery img").forEach((img, i) => {
-  gsap.from(img, {
+// 🔹 Fancy media animation (images & videos)
+gsap.utils.toArray(".gallery img, .gallery video").forEach((media, i) => {
+  gsap.from(media, {
     scrollTrigger: {
-      trigger: img,
-      start: "top 85%",
-      toggleActions: "play none none none"
+      trigger: media,
+      start: "top 80%",
+      toggleActions: "play none none none",
     },
+    y: 80,
+    opacity: 0,
     scale: 1.2,
-    opacity: 0,
-    duration: 1.2,
-    delay: i * 0.2,
-    ease: "power2.out"
+    filter: "blur(8px)",
+    duration: 1.4,
+    delay: i * 0.1,
+    ease: "power4.out",
+    onUpdate: () => {
+      gsap.to(media, { filter: "blur(0px)", duration: 0.5, ease: "power2.out" });
+    }
   });
 });
 
-// 3️⃣ Animate videos
-gsap.utils.toArray(".gallery video").forEach((vid) => {
-  gsap.from(vid, {
-    scrollTrigger: {
-      trigger: vid,
-      start: "top 85%",
-      toggleActions: "play none none none"
-    },
-    scale: 1.1,
-    opacity: 0,
-    duration: 1.5,
-    ease: "power2.out"
-  });
+// 🔹 Subtle parallax background scroll effect
+gsap.to("body", {
+  backgroundPosition: "50% 100%",
+  ease: "none",
+  scrollTrigger: {
+    trigger: "body",
+    start: "top top",
+    end: "bottom bottom",
+    scrub: true
+  }
 });
 </script>
 
+
 </body>
 </html>
+
 
 
 
