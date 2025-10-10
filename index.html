@@ -255,10 +255,37 @@ gsap.to("body", {
   }
 });
 </script>
+<script>
+// ✨ Scroll-reactive text fade (reappears when scrolling back)
+const lines = gsap.utils.toArray(".text-reveal .line");
+
+lines.forEach((line, i) => {
+  gsap.fromTo(line,
+    { opacity: 0, y: 50, scale: 1.1, filter: "blur(6px)" },
+    {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: "blur(0px)",
+      duration: 1.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: line,
+        start: "top 85%",
+        end: "bottom 60%",
+        scrub: true,
+        toggleActions: "play reverse play reverse"  // fades out when scrolling up, fades in again
+      }
+    }
+  );
+});
+</script>
+
 
 
 </body>
 </html>
+
 
 
 
