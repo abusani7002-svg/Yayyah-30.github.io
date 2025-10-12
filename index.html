@@ -136,13 +136,8 @@
   <source src="Yayah16.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
-
   </header>
-
-  <footer>
-    Made with ❤️ by Captain Imam!
-  </footer>
-
+  <footer>Made with ❤️ by Captain Imam!</footer>
   <!-- Confetti Canvas -->
   <canvas id="confetti"></canvas>
 
@@ -263,7 +258,7 @@ gsap.to("body", {
 });
 </script>
 <script>
-// ✨ Scroll-reactive text fade (reappears when scrolling back)
+// ✨ Scroll-reactive text fade (reappears everytime when scrolling back)
 const lines = gsap.utils.toArray(".text-reveal .line");
 
 lines.forEach((line, i) => {
@@ -282,7 +277,7 @@ lines.forEach((line, i) => {
         end: "bottom 60%",
         scrub: true,
         toggleActions: "play reverse play reverse"  // fades out when scrolling up, fades in again
-      }
+      
     }
   );
 });
@@ -291,22 +286,23 @@ lines.forEach((line, i) => {
   <source src="yayah-birthday.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
+<audio id="bgMusic">
+  <source src="yayah-birthday.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 
 <script>
   const music = document.getElementById("bgMusic");
 
-  // Try to play automatically
   window.addEventListener("load", () => {
     music.volume = 0;
     const playPromise = music.play();
 
-    // Handle autoplay blocking
     if (playPromise !== undefined) {
       playPromise.then(() => {
         fadeIn(music);
         stopAfter(70);
       }).catch(() => {
-        // If blocked, wait for user click to start
         document.body.addEventListener("click", () => {
           music.play();
           fadeIn(music);
@@ -316,7 +312,6 @@ lines.forEach((line, i) => {
     }
   });
 
-  // Smooth fade-in
   function fadeIn(audio) {
     let volume = 0;
     const fadeInterval = setInterval(() => {
@@ -326,10 +321,9 @@ lines.forEach((line, i) => {
       } else {
         clearInterval(fadeInterval);
       }
-    }, 100); // Fade over ~5 seconds
+    }, 100);
   }
 
-  // Stop after 70 seconds
   function stopAfter(seconds) {
     setTimeout(() => {
       music.pause();
@@ -338,10 +332,9 @@ lines.forEach((line, i) => {
   }
 </script>
 
-
-
 </body>
 </html>
+
 
 
 
